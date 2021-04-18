@@ -12,3 +12,15 @@ section {
     max-width: 800px;
     margin: 50px auto;
 }
+table.results{
+    text-transform: uppercase;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    td{
+        &:first-child{
+            font-weight:bold;
+        }
+        min-width:150px;
+        padding:5px;
+
+    }
+}
