@@ -1,6 +1,8 @@
 function handleSubmit(event) {
     event.preventDefault()
 
+    // variable to use as return for jest test
+    let tester = ''
     // check what text was put into the form field
     let formText = document.getElementById('name').value
     Client.checkForName(formText)
@@ -22,6 +24,7 @@ function handleSubmit(event) {
         if (res.error){ // checking if error was sent from server
             document.getElementById('results').innerHTML = '' // clearinf the results element
             alert(`ERROR: ${res.error}`) // showing the error
+            tester = res.error;
         }else{
             // if successfull
         let { // deconstructing the response data
@@ -32,6 +35,8 @@ function handleSubmit(event) {
             score_tag,
             subjectivity
         } = res
+
+        tester = {agreement, subjectivity}
 
         // showing the returned data in the results element as a table
         document.getElementById('results').innerHTML =
@@ -59,6 +64,8 @@ function handleSubmit(event) {
         }
     })
     .catch(error => console.error(error))
+
+    return tester
 }
 
 export { handleSubmit }

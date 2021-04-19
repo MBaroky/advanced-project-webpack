@@ -8,9 +8,10 @@ function checkForName(inputText) {
         "Georgiou"
     ]
 
-    if(names.includes(inputText)) {
+    let checker = names.includes(inputText)
+    if(checker) {
         alert("Welcome, Captain!")
     }
+    return checker
 }
-
 export { checkForName }
