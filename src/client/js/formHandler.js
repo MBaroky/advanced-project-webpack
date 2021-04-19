@@ -8,7 +8,7 @@ function handleSubmit(event) {
         "text":formText
     }
     console.log("::: Form Submitted :::")
-    fetch('http://localhost:8081/test', {
+    fetch('http://localhost:8081/postText', {
         method: 'POST',
         headers: {
             'Content-Type':'application/json'
@@ -19,7 +19,12 @@ function handleSubmit(event) {
     .then(res => res.json())
     .then(function(res) {
         console.log(res)
-        let {
+        if (res.error){ // checking if error was sent from server
+            document.getElementById('results').innerHTML = '' // clearinf the results element
+            alert(`ERROR: ${res.error}`) // showing the error
+        }else{
+            // if successfull
+        let { // deconstructing the response data
             agreement,
             confidence,
             irony,
@@ -27,6 +32,8 @@ function handleSubmit(event) {
             score_tag,
             subjectivity
         } = res
+
+        // showing the returned data in the results element as a table
         document.getElementById('results').innerHTML =
         `<table class="results">
         <tr>
@@ -49,7 +56,9 @@ function handleSubmit(event) {
         </tr>
         </table>
         `
+        }
     })
+    .catch(error => console.error(error))
 }
 
 export { handleSubmit }
