@@ -1,6 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebPackPlugin = require("html-webpack-plugin")
+const miniCSSExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     entry: './src/client/index.js',
@@ -18,14 +21,20 @@ module.exports = {
             },
             {
                 test:/\.scss/,
-                use:['style-loader', 'css-loader', 'sass-loader']
+                use:[miniCSSExtractPlugin.loader, 'css-loader', 'sass-loader']
             }
         ]
+    },
+    optimization: {
+        minimizer: [new TerserPlugin({}), new OptimizeCSSAssetsPlugin({})],
     },
     plugins: [
         new HtmlWebPackPlugin({
             template: "./src/client/views/index.html",
             filename: "./index.html",
+        }),
+        new miniCSSExtractPlugin({
+            filename: "[name].css"
         })
     ]
 }
