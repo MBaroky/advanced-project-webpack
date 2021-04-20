@@ -1,11 +1,30 @@
 const {fetcher} = require('./fetcher');
 
-const distributer = ()=>{
-    fetcher().then(function(res) {
+const distributer = (formText)=>{
+    return fetcher(formText).then(function(res) {
         console.log(res)
         if (res.error){ // checking if error was sent from server
-            document.getElementById('results').innerHTML = '' // clearinf the results element
-            alert(`ERROR: ${res.error}`) // showing the error
+            return {
+                pass:"error",
+                data:res
+            }
+        }else{
+            return {
+                pass: "passed",
+                data: res
+            }
+        }
+    })
+}
+
+function handleSubmit(event) {
+    event.preventDefault()
+    let formText = document.getElementById('name').value
+    distributer(formText)
+    .then(({pass, data})=>{
+        if (pass === 'error'){ // checking if error was sent from server
+            document.getElementById('table-wrapper').innerHTML = '' // clearinf the results element
+            alert(`ERROR: ${data.error}`) // showing the error
         }else{
             // if successfull
         let { // deconstructing the response data
@@ -15,7 +34,7 @@ const distributer = ()=>{
             model,
             score_tag,
             subjectivity
-        } = res
+        } = data
 
         // showing the returned data in the results element as a table
         document.getElementById('table-wrapper').innerHTML =
@@ -41,12 +60,7 @@ const distributer = ()=>{
         </table>
         `
         }
-    })
-}
-
-function handleSubmit(event) {
-    event.preventDefault()
-    distributer();
+    });
 }
 
 export { handleSubmit, fetcher, distributer }

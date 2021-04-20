@@ -1,6 +1,6 @@
-const fetcher = () =>{
+const fetcher = (formText) =>{
     // check what text was put into the form field
-    let formText = document.getElementById('name').value
+
     Client.checkForName(formText)
     let data = {
         "text":formText
