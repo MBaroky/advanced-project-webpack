@@ -18,3 +18,7 @@ const fetcher = () =>{
     })
     .then(res => res.json())
 }
+
+module.exports ={
+    fetcher
+}

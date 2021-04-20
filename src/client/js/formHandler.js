@@ -1,4 +1,4 @@
-const fetcher = require('./fetcher');
+const {fetcher} = require('./fetcher');
 
 const distributer = ()=>{
     fetcher().then(function(res) {
