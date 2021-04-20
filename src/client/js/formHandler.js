@@ -1,30 +1,11 @@
-function handleSubmit(event) {
-    event.preventDefault()
+const fetcher = require('./fetcher');
 
-    // variable to use as return for jest test
-    let tester = ''
-    // check what text was put into the form field
-    let formText = document.getElementById('name').value
-    Client.checkForName(formText)
-    let data = {
-        "text":formText
-    }
-    console.log("::: Form Submitted :::")
-    fetch('http://localhost:8081/postText', {
-        method: 'POST',
-        headers: {
-            'Content-Type':'application/json'
-        },
-        credentials: 'same-origin',
-        body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(function(res) {
+const distributer = ()=>{
+    fetcher().then(function(res) {
         console.log(res)
         if (res.error){ // checking if error was sent from server
             document.getElementById('results').innerHTML = '' // clearinf the results element
             alert(`ERROR: ${res.error}`) // showing the error
-            tester = res.error;
         }else{
             // if successfull
         let { // deconstructing the response data
@@ -35,8 +16,6 @@ function handleSubmit(event) {
             score_tag,
             subjectivity
         } = res
-
-        tester = {agreement, subjectivity}
 
         // showing the returned data in the results element as a table
         document.getElementById('results').innerHTML =
@@ -63,9 +42,11 @@ function handleSubmit(event) {
         `
         }
     })
-    .catch(error => console.error(error))
-
-    return tester
 }
 
-export { handleSubmit }
+function handleSubmit(event) {
+    event.preventDefault()
+    distributer();
+}
+
+export { handleSubmit, fetcher, distributer }

@@ -2,6 +2,7 @@
 const dotenv = require('dotenv')
 const path = require('path')
 const express = require('express')
+const bodyParser = require('body-parser')
 const mockAPIResponse = require('./mockAPI.js')
 // CORS for using 8080 with 8081
 const cors = require('cors')
@@ -26,6 +27,9 @@ app.use(express.json())
 
 // using cors
 app.use(cors())
+
+// using body parser
+app.use(bodyParser.urlencoded({ extended: false }))
 
 console.log(__dirname)
 
