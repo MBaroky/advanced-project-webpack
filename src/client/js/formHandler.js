@@ -18,8 +18,8 @@ const distributer = ()=>{
         } = res
 
         // showing the returned data in the results element as a table
-        document.getElementById('results').innerHTML =
-        `<table class="results">
+        document.getElementById('table-wrapper').innerHTML =
+        `<table class="res-table">
         <tr>
         <td> agreement: </td> <td> ${agreement}</td>
         </tr>
